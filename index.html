@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Career Application - Terra Tech</title>
     <link rel="icon" href="logo.png" type="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -224,66 +224,6 @@
             color: #718096;
         }
 
-        .tracks-container {
-            display: none;
-            background: #f8fbff;
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 15px;
-            border: 1px solid #e0e7ff;
-        }
-
-        .tracks-title {
-            font-size: 17px;
-            color: #2d3748;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .tracks-options {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .track-option {
-            padding: 18px 12px;
-            border: 2px solid #e0e7ff;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s;
-            background: white;
-            min-height: 75px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .track-option:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            border-color: #1a73e8;
-        }
-
-        .track-option.selected {
-            border-color: #1a73e8;
-            background: #f0f7ff;
-            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.1);
-        }
-
-        .track-option i {
-            font-size: 24px;
-            color: #1a73e8;
-            margin-bottom: 10px;
-        }
-
-        .track-option span {
-            font-size: 14px;
-            font-weight: 500;
-        }
-
         .upload-instructions {
             background: #e8f5e9;
             border-radius: 10px;
@@ -399,10 +339,6 @@
             .position-container {
                 grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             }
-            
-            .tracks-options {
-                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-            }
         }
 
         @media (max-width: 480px) {
@@ -447,14 +383,6 @@
                 padding: 18px 10px;
             }
             
-            .tracks-options {
-                grid-template-columns: 1fr;
-            }
-            
-            .track-option {
-                padding: 16px 10px;
-            }
-            
             input, select, textarea {
                 padding: 11px 13px;
                 font-size: 14px;
@@ -474,9 +402,8 @@
             <div class="header-content">
                 <div class="logo">
                     <div class="logo-icon">
-    <img src="logo.png" alt="Terra Tech Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-</div>
-
+                        <img src="logo.png" alt="Terra Tech Logo" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                    </div>
                     <div>
                         <h1>Terra Tech</h1>
                         <p class="subtitle">Join our team of innovators and industry leaders</p>
@@ -532,17 +459,18 @@
                     
                     <div class="form-group">
                         <label>Select Your Desired Position</label>
-                        
-                        <input type="hidden" id="position" value="">
+                        <input type="hidden" id="position" value="sales">
                         
                         <div class="position-container">
-                            <div class="position-option" data-position="sales">
+                            <div class="position-option selected" data-position="sales">
                                 <i class="fas fa-chart-line"></i>
                                 <div class="position-title">Sales</div>
                                 <div class="position-desc">Business development & client relations</div>
                             </div>
-                            
-
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="form-section">
                     <div class="section-title">
                         <i class="fas fa-file-alt"></i>
@@ -610,46 +538,14 @@
         const db = getFirestore(app);
 
         document.addEventListener('DOMContentLoaded', function() {
-          const positionOptions = document.querySelectorAll('.position-option');
           const positionInput = document.getElementById('position');
-          const tracksContainer = document.getElementById('tracksContainer');
-          const trackOptions = document.querySelectorAll('.track-option');
-          const trackInput = document.getElementById('track');
           const applicationForm = document.getElementById('applicationForm');
           const submitBtn = document.getElementById('submitBtn');
           const successMessage = document.getElementById('successMessage');
           const formContainer = document.querySelector('.form-container');
 
-          // معالجة اختيار الوظيفة
-          positionOptions.forEach(option => {
-            option.addEventListener('click', function() {
-              positionOptions.forEach(opt => opt.classList.remove('selected'));
-              this.classList.add('selected');
-              positionInput.value = this.dataset.position;
-
-              const technicalPositions = ['software', 'ml', 'ai'];
-              if (technicalPositions.includes(this.dataset.position)) {
-                tracksContainer.style.display = 'block';
-                trackInput.required = true;
-              } else {
-                tracksContainer.style.display = 'none';
-                trackInput.required = false;
-                trackOptions.forEach(track => {
-                  track.classList.remove('selected');
-                });
-                trackInput.value = '';
-              }
-            });
-          });
-
-          // معالجة اختيار التخصص
-          trackOptions.forEach(option => {
-            option.addEventListener('click', function() {
-              trackOptions.forEach(opt => opt.classList.remove('selected'));
-              this.classList.add('selected');
-              trackInput.value = this.dataset.track;
-            });
-          });
+          // جعل خيار المبيعات محددًا تلقائيًا
+          positionInput.value = "sales";
 
           // معالجة إرسال النموذج
           submitBtn.addEventListener('click', async function(e) {
@@ -661,17 +557,9 @@
             const position = positionInput.value;
             const cvLink = document.getElementById('cvLink').value;
             const experience = document.getElementById('experience').value;
-            const track = trackInput.value;
-
-            const technicalPositions = ['software', 'ml', 'ai'];
 
             if (!fullName || !email || !phone || !position || !cvLink || !experience) {
               alert('Please fill in all required fields');
-              return;
-            }
-
-            if (technicalPositions.includes(position) && !track) {
-              alert('Please select your specialization track');
               return;
             }
 
@@ -684,7 +572,7 @@
                 email: email,
                 phone: phone,
                 position: position,
-                track: technicalPositions.includes(position) ? track : 'N/A',
+                track: 'N/A',
                 cvLink: cvLink,
                 experience: experience,
                 timestamp: new Date().toISOString()
